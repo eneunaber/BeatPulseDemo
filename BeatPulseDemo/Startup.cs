@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BeatPulse;
+using BeatPulse.Core;
+using BeatPulse.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +27,12 @@ namespace BeatPulseDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddBeatPulse();
+            services.AddBeatPulse(setup =>
+            {
+                //add sql server liveness
+                setup.AddSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
